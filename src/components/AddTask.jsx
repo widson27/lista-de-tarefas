@@ -81,7 +81,7 @@ function AddTask({ onAddTaskSubmit, onCloseTask, onDeleteTaskClick, initialData,
       </div>
 
       {!readOnly && (
-        <div className={`ml-[50%] pt-8 flex gap-4 ${initialData && "ml-[15%]"}`}>
+        <div className={`ml-[50%] pt-8 flex gap-4`}>
           <button 
             className="flex bg-sky-100 rounded-md shadow-md gap-2 justify-center items-center pr-2 w-fit h-10 text-slate-500 font-semibold"
             onClick={() => {
