@@ -16,13 +16,6 @@ function Home() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
-  function onTaskClick(taskId) {
-    const newTasks = tasks.map((task) =>
-      task.id === taskId ? { ...task, isCompleted: !task.isCompleted } : task
-    );
-    setTasks(newTasks);
-  }
-
   function onDeleteTaskClick(taskId) {
     const newTasks = tasks.filter(task => task.id !== taskId);
     setTasks(newTasks);
@@ -49,9 +42,7 @@ function Home() {
         dataFim,
         custo,
         status,
-        isCompleted: false,
-        isPending: true,
-        isProgress: false,
+
       };
       setTasks([...tasks, newTask]);
     }
@@ -97,7 +88,6 @@ function Home() {
             ) : (
               <Tasks
                 tasks={tasks}
-                onTaskClick={onTaskClick}
                 onDeleteTaskClick={onDeleteTaskClick}
                 onEditTaskClick={(task) => {
                   setEditingTask(task);

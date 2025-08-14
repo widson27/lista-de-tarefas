@@ -2,7 +2,7 @@ import { PencilIcon, ChevronDown, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import AddTask from "./AddTask";
 
-function Tasks({ tasks, onTaskClick, onDeleteTaskClick, onEditTaskClick }) {
+function Tasks({ tasks, onEditTaskClick }) {
   const [expandedTaskId, setExpandedTaskId] = useState(null);
 
   function toggleExpand(taskId) {
