@@ -1,35 +1,49 @@
-import { CheckIcon, ChevronRightIcon, TrashIcon } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import Button from "./Button";
+import { PencilIcon, ChevronDown, ChevronRight } from "lucide-react";
+import { useState } from "react";
+import AddTask from "./AddTask";
 
-function Tasks({ tasks, onTaskClick, onDeleteTaskClick }) {
-  const navigate = useNavigate()
+function Tasks({ tasks, onTaskClick, onDeleteTaskClick, onEditTaskClick }) {
+  const [expandedTaskId, setExpandedTaskId] = useState(null);
 
-  function onSeeDetailsClick(task) {
-    const query = new URLSearchParams();
-    query.set("title", task.title);
-    query.set("description", task.description)
-    navigate(`/task?${query.toString()}`)
+  function toggleExpand(taskId) {
+    setExpandedTaskId(expandedTaskId === taskId ? null : taskId);
   }
 
   return (
-    <ul className="space-y-4 p-6 bg-slate-200 rounded-md shadow">
-      {tasks.map((task) => (
-        <li key={task.id} className="flex gap-2">
-          <button className={`bg-slate-400 w-full text-left text-white p-2 rounded-md flex items-center gap-2 ${task.isCompleted && "line-through"}`} onClick={() => onTaskClick(task.id)}>
-            {task.isCompleted && <CheckIcon />}
-            {task.title}
-          </button>
-          <Button onClick={() => onSeeDetailsClick(task)}>
-            <ChevronRightIcon />
-          </Button>
-          <Button onClick={() => onDeleteTaskClick(task.id)}>
-            <TrashIcon />
-          </Button>
-        </li>
-      ))}
-    </ul>
-  )
+    <div className="w-full max-w-[500px]">
+      <ul className="space-y-4">
+        {tasks.map((task) => (
+          <li key={task.id} className="bg-sky-100 shadow-md rounded-md">
+            <div className="flex items-center px-4 py-2 border-b border-sky-500">
+              <div
+                className="flex items-center w-[90%] gap-2 cursor-pointer"
+                onClick={() => toggleExpand(task.id)}
+              >
+                {expandedTaskId === task.id ? (
+                  <ChevronDown className="text-sky-600" />
+                ) : (
+                  <ChevronRight className="text-sky-600" />
+                )}
+                <span className="text-sky-600 font-bold text-xl">{task.title}</span>
+              </div>
+
+              <button
+                className="flex bg-sky-100 rounded-md shadow-md gap-2 justify-center items-center pr-2 w-fit h-10 text-slate-500 font-semibold"
+                onClick={() => onEditTaskClick(task)}
+              >
+                <PencilIcon className="text-white rounded-tl rounded-bl w-8 h-full p-1 bg-blue-600 font-bold" />
+                Editar
+              </button>
+            </div>
+
+            {expandedTaskId === task.id && (
+              <AddTask initialData={task} readOnly={true} />
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
 export default Tasks;
